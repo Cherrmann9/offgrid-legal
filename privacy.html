@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OffGrid Privacy Policy</title><style>body{font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;max-width:720px;margin:0 auto;padding:32px 20px;color:#1d1d1f;background:#fff}h1{font-size:2rem;line-height:1.15;letter-spacing:-.02em}h2{margin-top:2em;font-size:1.3rem}a{color:#2c7a3a}nav a{margin-right:16px}em{color:#6e6e73}@media(prefers-color-scheme:dark){body{background:#0a0d0b;color:#f5f5f7}a{color:#6bd17a}em{color:#a1a1a6}}</style></head><body><nav><a href="index.html">OffGrid</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></nav><h1>OffGrid Privacy Policy</h1>
-<p><em>Last updated: September 24, 2026</em></p>
+<p><em>Last updated: September 29, 2026</em></p>
 <p>OffGrid is a camping spot tracker and trip planner. It is designed to keep your data on your device.</p>
 <h2>What OffGrid stores</h2>
 <ul>
@@ -19,9 +19,25 @@
 <li><strong>USGS Elevation Point Query Service</strong> to fill in a spot&#x27;s elevation from its coordinates when you create it.</li>
 <li><strong>OpenTopoMap</strong> for topographic map tiles, only when you turn on the Topography layer or download an area for offline use.</li>
 <li><strong>Wikimedia Commons</strong> for park photos.</li>
+<li><strong>Apple iCloud/CloudKit</strong>, if you turn on Friends, for your Friends profile, friend requests, and encrypted messages. See <a href="#friends-and-messaging">Friends and messaging</a> below. Apple&#x27;s privacy policy applies.</li>
 </ul>
 <h2>Navigation</h2>
 <p>When you start navigation in OffGrid, the app uses your location continuously, including while the screen is locked, to follow your saved route and give turn directions. This stops when you end navigation. Your position is used on the device only and is never sent to the developer.</p>
+<h2 id="friends-and-messaging">Friends and messaging</h2>
+<p>If you turn on Friends, OffGrid creates a profile record in the public database of Apple&#x27;s CloudKit (in the app&#x27;s own iCloud container) so other OffGrid users can find you. That record holds your display name, your 8-character friend code, a public encryption key generated on your device, and, only if you also turn on &quot;Let contacts find me,&quot; hashed versions of your contacts (see Contacts below). Nothing else about you is stored there.</p>
+<p>Messages to friends are end-to-end encrypted. Your device generates a private key that never leaves it, kept in the Keychain, and pairs it with your friend&#x27;s public key to seal every message before it is sent. Anyone relaying a message for you &mdash; another OffGrid user&#x27;s phone over Bluetooth, or a Meshtastic radio &mdash; sees only ciphertext plus routing information (a message id, hop count, and your friend&#x27;s friend code), never the message content.</p>
+<p>Blocking a friend is enforced locally on your device; it also syncs to your own private iCloud data so the block follows you to your other devices, since CloudKit has no server-side filtering.</p>
+<p>To stop using Friends, remove each friend from the Friends tab (this deletes their key and stops new messages) and turn off &quot;Let contacts find me&quot; to remove your contact hashes from your profile. There is no in-app way to delete the profile record itself yet; contact support to delete your Friends profile.</p>
+<h2>Contacts</h2>
+<p>With &quot;Let contacts find me&quot; turned on, OffGrid reads your contacts and, on the device, normalizes each phone number and email address and hashes it with SHA-256 and a fixed salt built into the app. Only these hashes are stored in your CloudKit profile, so other OffGrid users whose contacts include you can find you automatically. Your raw contacts never leave your phone, and a match only happens if the other person has also turned this feature on. Turning the toggle off removes your hashes from your profile.</p>
+<h2>Bluetooth and Nearby Messaging</h2>
+<p>With Nearby Messaging on, your phone advertises over Bluetooth and relays messages for other nearby OffGrid users, and they relay for you, so a message can reach a friend who isn&#x27;t directly in range. A phone that relays a message can see its message id, hop count, and your friend&#x27;s friend code, but not its content, which stays encrypted end to end.</p>
+<p>An SOS you send is different: it also reaches nearby OffGrid users who are not your friends, as an anonymous alert so they can help, and that alert is not encrypted &mdash; it contains your display name, position, and any note you add, in the clear, to anyone with Bluetooth range of your phone while your SOS is active.</p>
+<p>Nearby Messaging runs only in the foreground unless you also turn on Background Messaging, which keeps Bluetooth scanning and advertising running while your phone is locked or OffGrid is closed, until you swipe the app away in the app switcher.</p>
+<h2>Meshtastic radios</h2>
+<p>If you connect a Meshtastic LoRa radio, direct messages and channel messages to nodes that aren&#x27;t your OffGrid friends are sent as plain text over the radio, and OffGrid marks them as unencrypted &mdash; anyone with a compatible radio listening on the same channel can read them. If a radio&#x27;s node is linked to one of your OffGrid friends, messages to that node are sealed the same way as any other friend message before being sent as a direct message. An SOS broadcast on the radio&#x27;s primary channel is always public, readable by any Meshtastic radio in range. Meshtastic is third-party hardware and software; OffGrid is not affiliated with Meshtastic and does not control what other radios or apps on the network do with messages they receive.</p>
+<h2>Notifications</h2>
+<p>OffGrid sends local notifications on this device for incoming messages, friend requests, and SOS alerts, including time-sensitive notifications for SOS so they can break through Focus and Do Not Disturb. New Friends activity can wake the app in the background using Apple&#x27;s own CloudKit push notifications; no developer server is involved and no notification content passes through anyone but Apple and your device.</p>
 <h2>iCloud</h2>
 <p>If you are signed in to iCloud with iCloud Drive on, OffGrid keeps a copy of your spots, trips, favorites, and photos in your own iCloud Drive so they appear on your other devices. This uses your Apple account only; the developer has no access to it. Turn off iCloud Drive for OffGrid in Settings to keep everything on one device.</p>
 <h2>Backups</h2>
@@ -31,7 +47,7 @@
 <ul>
 <li>No analytics, advertising, or tracking SDKs.</li>
 <li>No sale or sharing of personal data.</li>
-<li>No data collection by the developer.</li>
+<li>The developer runs no server of any kind; the only place any data leaves your device to is Apple&#x27;s own iCloud/CloudKit, described above, for Friends and message routing metadata if you turn that feature on.</li>
 </ul>
 <h2>Children</h2>
 <p>OffGrid is not directed at children under 13 and collects no personal information from anyone.</p>
